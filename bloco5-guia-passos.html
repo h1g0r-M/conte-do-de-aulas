@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia da Aula – HTML &amp; CSS do Zero</title>
+
+  <style>
+    /* ============================================
+       GUIA DE PASSO A PASSO
+       Estilo: editorial / caderno de anotações
+       ============================================ */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background-color: #fafaf7;
+      color: #1a1a2e;
+      font-size: 100%;
+      line-height: 1.7;
+    }
+
+    /* ---- CAPA ---- */
+    .capa {
+      background-color: #16213e;
+      color: #fff;
+      padding: 60px 40px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Detalhe decorativo de fundo */
+    .capa::before {
+      content: "";
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background-color: rgba(233,69,96,0.12);
+    }
+
+    .capa::after {
+      content: "";
+      position: absolute;
+      bottom: -80px; left: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background-color: rgba(15,52,96,0.5);
+    }
+
+    .capa .etiqueta {
+      display: inline-block;
+      background-color: #e94560;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .capa h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .capa p {
+      color: #a0aec0;
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .capa .meta {
+      display: inline-block;
+      margin-top: 28px;
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+      color: #718096;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---- TRILHA DE BLOCOS ---- */
+    main {
+      max-width: 820px;
+      width: 92%;
+      margin: 48px auto 60px;
+    }
+
+    /* Título de seção do guia */
+    .titulo-secao {
+      font-family: Arial, sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #718096;
+      margin-bottom: 28px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    /* ---- CARD DE BLOCO ---- */
+    .bloco {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      margin-bottom: 28px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Cabeçalho colorido do card */
+    .bloco-header {
+      padding: 20px 28px;
+      display: block; /* inline-block trick para número + texto */
+    }
+
+    .bloco-header .numero-bloco {
+      display: inline-block;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #fff;
+      color: inherit;
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 36px;
+      margin-right: 14px;
+      vertical-align: middle;
+      /* a cor do número herda do pai via filter; usamos border */
+      border: 2px solid rgba(255,255,255,0.6);
+    }
+
+    .bloco-header .titulo-bloco {
+      display: inline-block;
+      vertical-align: middle;
+      font-family: Arial, sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .bloco-header .subtitulo-bloco {
+      display: block;
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+      margin-top: 2px;
+      margin-left: 50px; /* alinha com o texto, após o círculo */
+      opacity: 0.85;
+    }
+
+    /* Cores por bloco */
+    .bloco-1 .bloco-header { background-color: #2c5282; color: #fff; }
+    .bloco-2 .bloco-header { background-color: #276749; color: #fff; }
+    .bloco-3 .bloco-header { background-color: #744210; color: #fff; }
+    .bloco-4 .bloco-header { background-color: #822727; color: #fff; }
+    .bloco-5 .bloco-header { background-color: #44337a; color: #fff; }
+
+    /* Corpo do card */
+    .bloco-body {
+      padding: 24px 28px;
+    }
+
+    /* ---- PASSOS DENTRO DO CARD ---- */
+    .passos {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px;
+    }
+
+    .passos li {
+      padding: 10px 0 10px 44px;
+      position: relative;
+      border-bottom: 1px dashed #e2e8f0;
+      font-size: 0.95rem;
+    }
+
+    .passos li:last-child { border-bottom: none; }
+
+    /* Marcador numérico do passo */
+    .passos li::before {
+      content: attr(data-passo); /* lê o atributo data-passo do HTML */
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background-color: #f0f4f8;
+      border: 1px solid #d1dce8;
+      font-family: Arial, sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #4a5568;
+      text-align: center;
+      line-height: 26px;
+    }
+
+    .passos li strong {
+      color: #16213e;
+      display: block;
+      margin-bottom: 2px;
+      font-family: Arial, sans-serif;
+      font-size: 0.875rem;
+    }
+
+    .passos li span {
+      color: #4a5568;
+      font-size: 0.88rem;
+    }
+
+    /* ---- CAIXA DE CONCEITOS-CHAVE ---- */
+    .conceitos {
+      background-color: #f7fafd;
+      border-left: 3px solid #0f3460;
+      border-radius: 0 6px 6px 0;
+      padding: 14px 18px;
+      margin-top: 4px;
+    }
+
+    .conceitos p {
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #0f3460;
+      margin-bottom: 10px;
+    }
+
+    /* Tags de conceito em inline-block */
+    .conceitos .tags { font-size: 0; } /* zera espaço */
+
+    .tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-family: "Courier New", monospace;
+      background-color: #16213e;
+      color: #e2e8f0;
+      padding: 3px 10px;
+      border-radius: 4px;
+      margin: 0 6px 6px 0;
+    }
+
+    /* ---- ARQUIVO DE REFERÊNCIA ---- */
+    .arquivo-ref {
+      display: inline-block;
+      margin-top: 16px;
+      font-family: Arial, sans-serif;
+      font-size: 0.8rem;
+      color: #2b6cb0;
+      background-color: #ebf4ff;
+      border: 1px solid #bee3f8;
+      border-radius: 6px;
+      padding: 6px 14px;
+    }
+
+    .arquivo-ref::before {
+      content: "📄 ";
+    }
+
+    /* ---- LINHA DO TEMPO (conecta os blocos) ---- */
+    .linha-tempo {
+      text-align: center;
+      color: #cbd5e0;
+      font-size: 1.4rem;
+      margin: -12px 0;
+      user-select: none;
+    }
+
+    /* ---- RESUMO FINAL ---- */
+    .resumo {
+      background-color: #16213e;
+      color: #e2e8f0;
+      border-radius: 12px;
+      padding: 32px 28px;
+      margin-top: 40px;
+    }
+
+    .resumo h2 {
+      font-family: Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #e94560;
+      margin-bottom: 20px;
+      border: none;
+      padding: 0;
+    }
+
+    /* Grade de resumo 2 colunas com inline-block */
+    .resumo-grade { font-size: 0; }
+
+    .resumo-item {
+      display: inline-block;
+      width: 48%;
+      vertical-align: top;
+      font-size: 0.9rem;
+      margin-bottom: 16px;
+      padding-right: 20px;
+    }
+
+    .resumo-item:nth-child(odd) { /* itens ímpares: margem direita */
+      margin-right: 4%;
+    }
+
+    .resumo-item .icone {
+      font-size: 1.3rem;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .resumo-item strong {
+      display: block;
+      font-family: Arial, sans-serif;
+      font-size: 0.82rem;
+      color: #a0aec0;
+      margin-bottom: 2px;
+    }
+
+    /* ---- RODAPÉ ---- */
+    footer {
+      background-color: #16213e;
+      color: #718096;
+      text-align: center;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      font-size: 0.82rem;
+      margin-top: 0;
+    }
+
+    /* ---- RESPONSIVIDADE ---- */
+    @media (max-width: 600px) {
+      .capa { padding: 40px 20px 36px; }
+      .capa h1 { font-size: 1.6rem; }
+      .bloco-header { padding: 16px 18px; }
+      .bloco-body { padding: 18px 16px; }
+      .bloco-header .subtitulo-bloco { margin-left: 0; margin-top: 8px; }
+
+      .resumo-item {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- CAPA -->
+  <header class="capa">
+    <span class="etiqueta">SENAI-SP &nbsp;·&nbsp; Desenvolvimento Web</span>
+    <h1>HTML &amp; CSS do Zero</h1>
+    <p>Guia de passo a passo — aula estruturada em 4 blocos incrementais com tema no Sistema de Chamados</p>
+    <span class="meta">Somente HTML e CSS &nbsp;·&nbsp; Sem frameworks &nbsp;·&nbsp; Sem JavaScript</span>
+  </header>
+
+  <main>
+
+    <p class="titulo-secao">Trilha da aula — 4 blocos + este guia</p>
+
+    <!-- ===================== BLOCO 1 ===================== -->
+    <div class="bloco bloco-1">
+      <div class="bloco-header">
+        <span class="numero-bloco">1</span>
+        <span class="titulo-bloco">Estrutura HTML Pura</span>
+        <span class="subtitulo-bloco">Arquivo: bloco1-estrutura.html</span>
+      </div>
+      <div class="bloco-body">
+
+        <ol class="passos">
+          <li data-passo="1.1">
+            <strong>Crie o arquivo e declare o DOCTYPE</strong>
+            <span>Abra um editor de texto, salve como <code>.html</code> e escreva
+            <code>&lt;!DOCTYPE html&gt;</code> na primeira linha. Isso diz ao navegador
+            qual versão do HTML está sendo usada (HTML5).</span>
+          </li>
+          <li data-passo="1.2">
+            <strong>Defina a estrutura raiz</strong>
+            <span>Adicione <code>&lt;html lang="pt-BR"&gt;</code>, depois
+            <code>&lt;head&gt;</code> com <code>&lt;meta charset="UTF-8"&gt;</code>
+            e <code>&lt;title&gt;</code>. O <code>lang</code> ajuda leitores de tela
+            e mecanismos de busca.</span>
+          </li>
+          <li data-passo="1.3">
+            <strong>Crie as seções semânticas no &lt;body&gt;</strong>
+            <span>Use <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>,
+            <code>&lt;main&gt;</code> e <code>&lt;footer&gt;</code>.
+            Semântica = significado: cada tag descreve o papel do conteúdo,
+            não só sua aparência.</span>
+          </li>
+          <li data-passo="1.4">
+            <strong>Escreva listas e parágrafos</strong>
+            <span><code>&lt;ul&gt;</code> para itens sem ordem de importância,
+            <code>&lt;ol&gt;</code> para passos sequenciais. Observe como o
+            navegador aplica estilos padrão sem nenhum CSS.</span>
+          </li>
+          <li data-passo="1.5">
+            <strong>Monte o formulário de chamado</strong>
+            <span>Adicione <code>&lt;form&gt;</code> com os campos:
+            <code>input type="text"</code>, <code>type="email"</code>,
+            <code>&lt;select&gt;</code>, <code>&lt;fieldset&gt;</code> com radios
+            de departamento, <code>&lt;textarea&gt;</code> e
+            <code>type="checkbox"</code>. Sempre vincule <code>label</code> ao campo
+            via atributos <code>for</code> e <code>id</code> iguais.</span>
+          </li>
+        </ol>
+
+        <div class="conceitos">
+          <p>Conceitos deste bloco</p>
+          <div class="tags">
+            <span class="tag">DOCTYPE</span>
+            <span class="tag">&lt;html&gt; &lt;head&gt; &lt;body&gt;</span>
+            <span class="tag">tags semânticas</span>
+            <span class="tag">&lt;form&gt;</span>
+            <span class="tag">label + id</span>
+            <span class="tag">&lt;fieldset&gt;</span>
+            <span class="tag">radio / checkbox</span>
+          </div>
+        </div>
+
+        <span class="arquivo-ref">bloco1-estrutura.html</span>
+      </div>
+    </div>
+
+    <div class="linha-tempo">↓</div>
+
+    <!-- ===================== BLOCO 2 ===================== -->
+    <div class="bloco bloco-2">
+      <div class="bloco-header">
+        <span class="numero-bloco">2</span>
+        <span class="titulo-bloco">Introdução ao CSS</span>
+        <span class="subtitulo-bloco">Arquivo: bloco2-css-basico.html</span>
+      </div>
+      <div class="bloco-body">
+
+        <ol class="passos">
+          <li data-passo="2.1">
+            <strong>Adicione a tag &lt;style&gt; no &lt;head&gt;</strong>
+            <span>Todo o CSS desta aula fica dentro de
+            <code>&lt;style&gt;...&lt;/style&gt;</code>, sem arquivo externo.
+            Isso mantém tudo em um único arquivo para facilitar o aprendizado.</span>
+          </li>
+          <li data-passo="2.2">
+            <strong>Aplique estilos ao &lt;body&gt; — tipografia e cor de fundo</strong>
+            <span>Use <code>font-family</code> com uma pilha de fontes,
+            <code>background-color</code> e <code>color</code>.
+            O seletor de elemento aplica o estilo a <em>todas</em>
+            as tags daquele tipo.</span>
+          </li>
+          <li data-passo="2.3">
+            <strong>Entenda o Box Model</strong>
+            <span>Cada elemento é uma caixa: <strong>content → padding → border → margin</strong>.
+            Use <code>box-sizing: border-box</code> no início do CSS para que
+            <code>padding</code> e <code>border</code> não somem à largura declarada.</span>
+          </li>
+          <li data-passo="2.4">
+            <strong>Estilize o header, nav e footer</strong>
+            <span>Aplique <code>background-color</code>, <code>padding</code> e <code>color</code>.
+            Use o seletor descendente (<code>nav a</code>) para atingir
+            apenas os links dentro da navegação.</span>
+          </li>
+          <li data-passo="2.5">
+            <strong>Centralize o main com width + margin auto</strong>
+            <span><code>width: 860px</code> define a largura fixa (versão desktop).
+            <code>margin: 32px auto</code> centraliza horizontalmente:
+            o navegador distribui o espaço restante igualmente nos dois lados.</span>
+          </li>
+          <li data-passo="2.6">
+            <strong>Formate os campos do formulário</strong>
+            <span><code>display: block</code> no <code>label</code> empurra o input
+            para a linha seguinte. <code>width: 100%</code> nos inputs os faz
+            ocupar toda a largura disponível. Use <code>:focus</code>
+            para destacar o campo ativo.</span>
+          </li>
+          <li data-passo="2.7">
+            <strong>Use pseudo-classes :hover e :focus</strong>
+            <span>São estados do elemento. <code>:hover</code> se ativa quando
+            o mouse passa por cima; <code>:focus</code> quando o campo está
+            selecionado. Indicam interação sem JavaScript.</span>
+          </li>
+        </ol>
+
+        <div class="conceitos">
+          <p>Conceitos deste bloco</p>
+          <div class="tags">
+            <span class="tag">seletores</span>
+            <span class="tag">box model</span>
+            <span class="tag">margin / padding</span>
+            <span class="tag">border-box</span>
+            <span class="tag">display: block</span>
+            <span class="tag">:hover :focus</span>
+            <span class="tag">margin: auto</span>
+          </div>
+        </div>
+
+        <span class="arquivo-ref">bloco2-css-basico.html</span>
+      </div>
+    </div>
+
+    <div class="linha-tempo">↓</div>
+
+    <!-- ===================== BLOCO 3 ===================== -->
+    <div class="bloco bloco-3">
+      <div class="bloco-header">
+        <span class="numero-bloco">3</span>
+        <span class="titulo-bloco">Layout com Display e Position</span>
+        <span class="subtitulo-bloco">Arquivo: bloco3-layout-position.html</span>
+      </div>
+      <div class="bloco-body">
+
+        <ol class="passos">
+          <li data-passo="3.1">
+            <strong>Crie cards de status com display: inline-block</strong>
+            <span>Antes do Flexbox, a técnica clássica para colunas era
+            <code>display: inline-block</code> + <code>width</code> em porcentagem.
+            Use <code>font-size: 0</code> no elemento pai para eliminar
+            o espaço em branco entre os elementos inline.</span>
+          </li>
+          <li data-passo="3.2">
+            <strong>Entenda position: relative e absolute</strong>
+            <span><code>relative</code>: o elemento permanece no fluxo, mas
+            vira referência para filhos <code>absolute</code>.
+            <code>absolute</code>: o elemento sai do fluxo e se posiciona
+            em relação ao seu pai posicionado mais próximo.</span>
+          </li>
+          <li data-passo="3.3">
+            <strong>Use pseudo-elementos ::before e ::after</strong>
+            <span>São conteúdo gerado pelo CSS — não existem no HTML.
+            Precisam de <code>content: ""</code> para aparecer.
+            Usados aqui para a faixa colorida no topo de cada card,
+            sem criar elementos extras no HTML.</span>
+          </li>
+          <li data-passo="3.4">
+            <strong>Aplique position: fixed ao botão de notificações</strong>
+            <span><code>fixed</code> posiciona o elemento em relação à
+            <em>janela</em> do navegador, não ao documento.
+            Ele permanece visível mesmo ao rolar a página.
+            Controle a sobreposição com <code>z-index</code>.</span>
+          </li>
+          <li data-passo="3.5">
+            <strong>Monte a tabela de chamados recentes</strong>
+            <span>Use <code>&lt;table&gt;</code>, <code>&lt;thead&gt;</code>,
+            <code>&lt;tbody&gt;</code>, <code>&lt;tr&gt;</code>, <code>&lt;th&gt;</code>
+            e <code>&lt;td&gt;</code>. Adicione <code>border-collapse: collapse</code>
+            para unir as bordas duplas entre células.</span>
+          </li>
+          <li data-passo="3.6">
+            <strong>Divida o formulário em duas colunas</strong>
+            <span>Crie uma <code>div.form-row</code> com <code>font-size: 0</code>
+            e dentro coloque <code>div.form-col</code> com
+            <code>display: inline-block; width: 48%</code>. Use
+            <code>vertical-align: top</code> para alinhar pelo topo
+            quando as alturas diferirem.</span>
+          </li>
+        </ol>
+
+        <div class="conceitos">
+          <p>Conceitos deste bloco</p>
+          <div class="tags">
+            <span class="tag">inline-block</span>
+            <span class="tag">position: relative</span>
+            <span class="tag">position: absolute</span>
+            <span class="tag">position: fixed</span>
+            <span class="tag">z-index</span>
+            <span class="tag">::before ::after</span>
+            <span class="tag">table / thead / tbody</span>
+          </div>
+        </div>
+
+        <span class="arquivo-ref">bloco3-layout-position.html</span>
+      </div>
+    </div>
+
+    <div class="linha-tempo">↓</div>
+
+    <!-- ===================== BLOCO 4 ===================== -->
+    <div class="bloco bloco-4">
+      <div class="bloco-header">
+        <span class="numero-bloco">4</span>
+        <span class="titulo-bloco">CSS Responsivo com Media Queries</span>
+        <span class="subtitulo-bloco">Arquivo: bloco4-responsivo.html</span>
+      </div>
+      <div class="bloco-body">
+
+        <ol class="passos">
+          <li data-passo="4.1">
+            <strong>Adicione a meta viewport</strong>
+            <span><code>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</code>
+            instrui o navegador mobile a usar a largura real da tela como base
+            de cálculo. Sem ela, o celular finge ter 980px e escala a página.</span>
+          </li>
+          <li data-passo="4.2">
+            <strong>Substitua width fixo por max-width + width: %</strong>
+            <span><code>max-width: 940px; width: 95%</code> no <code>main</code>:
+            em telas grandes limita em 940px; em telas menores usa 95%
+            da largura disponível. É mais flexível que um valor fixo em px.</span>
+          </li>
+          <li data-passo="4.3">
+            <strong>Envolva a tabela em um div com overflow-x: auto</strong>
+            <span>Em telas estreitas, tabelas largas quebram o layout.
+            O wrapper com <code>overflow-x: auto</code> cria uma barra de
+            rolagem horizontal <em>só na tabela</em>, sem afetar o resto da página.</span>
+          </li>
+          <li data-passo="4.4">
+            <strong>Escreva a primeira media query — tablet (768px)</strong>
+            <span><code>@media (max-width: 768px) { ... }</code>: os estilos
+            dentro das chaves se aplicam somente quando a tela tiver
+            até 768px. Reorganize os cards de 4 para 2 por linha
+            e empilhe as colunas do formulário.</span>
+          </li>
+          <li data-passo="4.5">
+            <strong>Escreva a segunda media query — mobile (480px)</strong>
+            <span><code>@media (max-width: 480px) { ... }</code>: adapta para
+            celular. Transforme os links do <code>nav</code> em blocos com
+            <code>display: block</code> para ficarem empilhados.
+            Reduza paddings e aumente o tamanho dos campos para facilitar
+            o toque.</span>
+          </li>
+          <li data-passo="4.6">
+            <strong>Teste redimensionando a janela</strong>
+            <span>Abra o arquivo no navegador e arraste a borda da janela.
+            Observe a página se reorganizar nos dois pontos de quebra.
+            Use as Ferramentas do Desenvolvedor (F12 → ícone de celular)
+            para simular dispositivos específicos.</span>
+          </li>
+        </ol>
+
+        <div class="conceitos">
+          <p>Conceitos deste bloco</p>
+          <div class="tags">
+            <span class="tag">meta viewport</span>
+            <span class="tag">max-width + %</span>
+            <span class="tag">@media</span>
+            <span class="tag">breakpoint</span>
+            <span class="tag">overflow-x: auto</span>
+            <span class="tag">desktop-first</span>
+            <span class="tag">display: block (reflow)</span>
+          </div>
+        </div>
+
+        <span class="arquivo-ref">bloco4-responsivo.html</span>
+      </div>
+    </div>
+
+    <!-- ===================== RESUMO FINAL ===================== -->
+    <div class="resumo">
+      <h2>O que você aprendeu nesta aula</h2>
+      <div class="resumo-grade">
+
+        <div class="resumo-item">
+          <span class="icone">🏗️</span>
+          <strong>Estrutura HTML</strong>
+          Tags semânticas, formulários, listas e hierarquia de documento.
+        </div>
+
+        <div class="resumo-item">
+          <span class="icone">🎨</span>
+          <strong>CSS Básico</strong>
+          Seletores, box model, tipografia, cores e pseudo-classes.
+        </div>
+
+        <div class="resumo-item">
+          <span class="icone">📐</span>
+          <strong>Layout sem Flexbox</strong>
+          inline-block, position (relative / absolute / fixed), z-index e pseudo-elementos.
+        </div>
+
+        <div class="resumo-item">
+          <span class="icone">📱</span>
+          <strong>Responsividade</strong>
+          Meta viewport, unidades relativas, @media queries e overflow-x.
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>SENAI-SP &mdash; Sistema de Chamados Internos &mdash; Guia Didático &copy; 2025</p>
+  </footer>
+
+</body>
+</html>
