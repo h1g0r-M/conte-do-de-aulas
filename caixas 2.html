@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Caixas + Formulário</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    section {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .box {
+      width: 200px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000000;
+      font-size: 18px;
+      columns: 2;
+    }
+
+    .box1 { background-color: #ccc;
+           box-shadow:0 4px 10px 3px #2980b9; 
+        }
+    .box2 { background-color: #ccc;
+    box-shadow:0 4px 10px 3px #d85e5e
+    }
+    .box3 { background-color: #ccc;
+    box-shadow:0 4px 10px 3px #64ca29
+    }
+    .box4 {background-color:  #ccc;
+    box-shadow:0 4px 10px 3px #f3c230
+    }
+    /* FORMULÁRIO */
+    .form-container {
+      max-width: 800px;
+      margin: 30px auto; /* centraliza abaixo das caixas */
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin:  auto 30px;
+    }
+    .
+
+    .form-container h2 {
+      text-align: center;
+    }
+
+    .form-container input{
+      width: 60%;
+      height: 40%;
+      margin: 30px auto; /* centraliza abaixo das caixas */
+      padding: 20px;
+      border: 1px solid;
+      border-radius: 8px;
+      margin:  auto 30px;
+      display: flex;
+    }
+    .form-container textarea {
+      width: 60%;
+      height: 80%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+      display: flex;
+    }
+
+    .form-container button {
+      width: 60%;
+      height: 40%;
+      padding: 10px;
+      border: none;
+      background-color: #3498db;
+      color: white;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex
+    }
+    form{ display: grid;
+  grid-template-columns: 1fr 1fr; /* duas colunas */
+  gap: 15px;}
+
+    .form-container button:hover {
+      background-color: #2980b9;
+    }
+    .box:hover {
+        background-color: #f3c230;
+    }
+    input {display: flex;
+
+    }
+    textarea {
+  grid-column: span 2; /* ocupa as duas colunas */
+}
+
+button {
+  grid-column:  2; /* botão também */
+}
+  </style>
+</head>
+<body>
+
+<section>
+  <div class="box box1">Abertos</div>
+  <div class="box box2">Andamentos</div>
+  <div class="box box3">Resolvidos</div>
+  <div class="box box4">Cancelados</div>
+</section>
+
+<div class="form-container">
+  <h2>Contato</h2>
+  <form>
+    <input type="text" placeholder="Seu nome" required>
+    <input type="email" placeholder="Seu email" required>
+    <textarea rows="4" placeholder="Sua mensagem" required></textarea>
+    <button type="submit">Enviar</button>
+  </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<html>
+<header>  </header>
+<form>
+
+    <label for="nome">Nome:</label>
+<input type="text" name="nome" placeholder="João da Silva Sauro">
+
+    <label for="email">Email:</label>
+    <input type="text" email="email" placeholder="joaosilva@metal.com">
+    <fieldset>
+        <legend>Categoria</legend>
+        <label for="Categoria">Selecione o Setor:</label>
+        <select id="Categoria" name="Categoria">
+  <option value="Suporte tècnico">Suporte técnico</option>
+  <option value="Solicitar Equipamento" selected>Solicitar Equipamento</option>
+  <option value="Acesso ao Sistema">Acesso ao Sistema</option>
+
+<option value="Dúvidas Administrativas">SDúvidas Administrativas</option>
+</select>
+<fieldset>
+    <!-- Departamento  -->
+    <label>Selecione o Departamento correspondente:</legend>
+
+    <div>
+      <input type="radio" id="T.I" name="contact_method" value="T.I" checked>
+      <label for="T>I">T.I</label>
+    </div>
+
+    <div>
+      <input type="radio" id="RH" name="contact_method" value="RH">
+      <label for="RH">RH</label>
+    </div>
+
+    <div>
+      <input type="radio" id="Financeiro" name="contact_method" value="Finaceiro">
+      <label for="Financeiro">Financeiro</label>
+    </div>
+  </fieldset>
+
+  <button type="enviar">Enviar</button>
+  <label for="Descrição">Descreva seu chamado</label>
+  <textarea id="Descrição"> </textarea>
+
+</form>
+</html>

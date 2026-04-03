@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Produtos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1611068813580-b07ef920964b?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+      background-size: cover;
+      margin: 0;
+      padding: 50px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 250px);
+      gap: 20px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    }
+
+    .card h3 {
+      margin: 10px 0;
+    }
+
+    .card p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="board" id="board"></div>
+
+  <script>
+    const produtos = [
+      {nome: "Strimberg Next", preco:2200, descricao:"Headless Guitar"},
+      {nome: "Yamaha MOX6", preco:6950.5, descricao:"Keyboard"},
+      {nome: "Tagima JA3", preco: 2510.7, descricao:"Stratocaster Guitar"},
+      {nome: "Seven S570", preco: 1320, descricao:"Stratocaster Guitar"},
+      {nome: "Fender American", preco: 14530, descricao:"American Stratocaster"},
+      {nome: "Ibanez MM", preco: 29890, descricao:"Super Strato"},
+      {nome: "Ibanez LB1", preco: 30990, descricao:"T Model"},
+      {nome: "SUHR M.A", preco: 34590, descricao:"Stratocaster Guitar"},
+      {nome: "Nord Eletro 6D", preco: 19900.9, descricao:"Keyboard"}
+    ];
+
+    const board = document.getElementById('board');
+
+    produtos.forEach((produto) => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.innerHTML = `
+        <p class="descricao">${produto.descricao}</p>
+        <h3>${produto.nome}</h3>
+        <p>R$ ${produto.preco.toFixed(2)}</p>
+      `;
+      board.appendChild(card);
+    });
+  </script>
+
+</body>
+</html>
