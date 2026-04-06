@@ -1,0 +1,111 @@
+<html>
+    <head>
+        <style>
+            button{ font: weight 10px;
+                color: rgb(19, 18, 18);
+                background-color: aliceblue;
+                padding: 10px;
+                border-radius: 10px;
+                
+        }
+.red{color: #fff;
+    background-color: red
+     ;
+     border-color: #fff;
+}
+.blue{color:#fff;
+    background-color: blue;
+
+}
+
+ label{color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    
+
+
+}
+        </style>
+    </head>
+<body>
+    
+<form>
+
+    <label for="nome">Nome:</label> 
+    <input type="text" name="nome">
+
+    <label for="email">E-mail:</label>
+    <input type="text" email="email">
+       
+   <label for="password">Senha:</label>
+   <input type="password" password="password">
+
+   <label for="age">Age:</label>
+   <input type="number" number="age">
+
+    <label for="Bio">Bio:</label>
+  <textarea id="Bio" placeholder="Tell us about your self"> </textarea>
+
+  <label for="Course">Course:</label>
+<select id="Course" name="Course" aria-placeholder="Select your course">
+  <option value="Web Development">Web Development</option>
+  <option value="Data Science">Data Science</option>
+  <option value="Ux Design">Ux Design</option>
+  <option value="Cyber Security">Cyber Security</option>
+</select>
+ 
+<div>
+<label for="Skils">Skils:</label>
+</div>
+<div>
+<label for="Html">Html</label>
+<input type="checkbox" id="Skils" name="Skils" value="Html">
+</div>
+
+<div>
+<label for="JavaScript">JavaScript</label>
+<input type="checkbox" id="Skils" name="Skils" value="JavaScript">
+</div>
+
+<div>
+<label for="Python">Python</label>
+<input type="checkbox" id="Skils" name="Skils" value="Python">
+</div>
+
+<fieldset>
+    
+    <label>Experience Level</label>
+    <div>
+      <input type="radio" id="Beginer" name="Experience Level" value="Beginer" checked>
+      <label for="Beginer">Beginer</label>
+    </div>
+
+    <div>
+      <input type="radio" id="Intermediate" name="Experience Level" value="Intermediate">
+      <label for="Intermediate">Intermediate</label>
+    </div>
+
+    <div>
+      <input type="radio" id="Advanced" name="Experience Level" value="Advanced">
+      <label for="Advanced">Advanced</label>
+    </div>
+
+    <div>
+  </fieldset>
+
+<label for="Self-Confidence(0-10)">Self-Confidence:</label>
+<input type="range" id="Self-Confidence(0-10)" name="Self-Confidence" min="0" max="100" value="50" step="1">
+</div>
+
+<div>
+ <label for="Upload CV">Upload CV</label>
+    <input type="file" id="file" name="arquivo">
+    <input type="submit" value="Enviar">
+</div>
+
+<div>
+    <span class="button">
+        
+       <button class="blue" type="submit">Submit</button>
+       <button type="clear">Clear</button>
+       <button class="red" type="delete">Delete</button>
+</div>
