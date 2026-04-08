@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Pessoas</title>
+
+  <link rel="stylesheet" href="style.css">
+ 
+    <style>
+ 
+  #lista {
+  width: 300px;
+  min-height: 150px;
+  border: 5px solid #4e2a0d;
+  border-radius: 10px;
+  padding: 10px;
+  background: #4f683b;
+  list-style: none;
+}
+h1{ color: #295041;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    border-radius: 10px; 
+    border-color: #4f683b;
+    border: 1px solid slategray;
+    box-shadow: 2px solid;
+
+}
+body{background-image:url("https://p16-capcut-cms-sg-useast5.capcutcdn-us.com/tos-useast5-i-6rr7idwo9f-tx/1704770149825.image~tplv-6rr7idwo9f-image.image");
+
+
+
+
+}
+li{
+    color: aliceblue;
+    font-family: cursive;
+    
+}
+</style>
+</head>
+<body>
+
+  <h1>Cadastro</h1>
+
+  <form id="form">
+    <input type="text" id="nome" placeholder="Nome" required>
+    <input type="text" id="profissao" placeholder="Cargo" required>
+    <button type="submit">Adicionar</button>
+  </form>
+
+  <ul id="lista"></ul>
+
+  <script>
+    
+const form = document.getElementById("form");
+const lista = document.getElementById("lista");
+
+let pessoas = [];
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const nome = document.getElementById("nome").value;
+  const profissao = document.getElementById("profissao").value;
+
+  pessoas.push({ nome, profissao });
+
+  renderizar();
+
+  form.reset();
+});
+
+function renderizar() {
+  lista.innerHTML = "";
+
+  pessoas.forEach((pessoa, index) => {
+    const item = document.createElement("li");
+
+    item.textContent = `${pessoa.nome} - ${pessoa.profissao}`;
+
+    const botao = document.createElement("button");
+    botao.textContent = "Excluir";
+
+    botao.onclick = function() {
+      remover(index);
+    };
+
+    item.appendChild(botao);
+    lista.appendChild(item);
+  });
+}
+
+function remover(index) {
+  pessoas.splice(index, 1);
+  renderizar();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  </script>
+</body>
+</html>

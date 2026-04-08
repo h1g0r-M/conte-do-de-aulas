@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!--
+    viewport: instrui o navegador mobile a usar a
+    largura real do dispositivo como base de cálculo,
+    sem escalar para desktop. OBRIGATÓRIO para responsividade.
+  -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bloco 4 – CSS Responsivo</title>
+
+  <style>
+    /* =============================================
+       BLOCO 4 — CSS RESPONSIVO COM MEDIA QUERIES
+       Estratégia: Desktop-first (escrevemos os estilos
+       para tela grande primeiro, depois adaptamos
+       para telas menores com @media).
+
+       Breakpoints usados:
+         • Tablet  → max-width: 768px
+         • Mobile  → max-width: 480px
+
+       NOVIDADES:
+         • @media queries
+         • Unidades relativas (%, vw, rem)
+         • max-width para limitar expansão
+         • Reflow de colunas inline-block para bloco
+         • Navegação empilhada no mobile
+         • Tipografia fluida
+       ============================================= */
+
+    /* -------------------------------------------
+       RESET E BASE
+       ------------------------------------------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      background-color: #f0f4f8;
+      color: #1a1a2e;
+      /* font-size base em % do padrão do navegador (16px × 100% = 16px) */
+      font-size: 100%;
+    }
+
+    /* -------------------------------------------
+       TIPOGRAFIA — usando rem para escalar junto
+       ------------------------------------------- */
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #16213e;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #0f3460;
+      border-bottom: 2px solid #0f3460;
+      padding-bottom: 6px;
+      margin-bottom: 20px;
+    }
+
+    h3 { font-size: 1.1rem; color: #16213e; margin-top: 20px; }
+    p  { line-height: 1.7; margin-bottom: 12px; }
+
+    /* -------------------------------------------
+       HEADER
+       ------------------------------------------- */
+    header {
+      background-color: #16213e;
+      color: #e0e0e0;
+      padding: 24px 32px;
+      position: relative;
+    }
+
+    header p {
+      color: #a0aec0;
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .header-badge {
+      position: absolute;
+      top: 20px;
+      right: 32px;
+      background-color: #e94560;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    /* -------------------------------------------
+       NAVEGAÇÃO (desktop: links em linha)
+       ------------------------------------------- */
+    nav {
+      background-color: #0f3460;
+      padding: 12px 32px;
+    }
+
+    nav a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-right: 24px;
+      font-family: Arial, sans-serif;
+      /* display: inline-block para aceitar padding em hover */
+      display: inline-block;
+      padding: 4px 0;
+    }
+
+    nav a:hover { color: #e94560; }
+
+    /* -------------------------------------------
+       MAIN — largura máxima + centralizado
+       ------------------------------------------- */
+    main {
+      /* max-width: em vez de width fixo, limita a expansão.
+         Em telas grandes fica em 940px; em telas menores,
+         a % se ajusta automaticamente. */
+      max-width: 940px;
+      width: 95%;                /* 95% da largura disponível */
+      margin: 32px auto;         /* centraliza horizontalmente */
+    }
+
+    /* -------------------------------------------
+       SECTION
+       ------------------------------------------- */
+    section {
+      background-color: #ffffff;
+      border: 1px solid #d1dce8;
+      border-radius: 8px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    ul, ol { padding-left: 24px; margin-bottom: 16px; }
+    ul li, ol li { margin-bottom: 8px; line-height: 1.6; }
+
+    /* -------------------------------------------
+       PAINEL DE STATUS — 4 cards em linha (desktop)
+       ------------------------------------------- */
+    .status-grid { font-size: 0; }
+
+    .status-card {
+      display: inline-block;
+      width: 23%;
+      margin-right: 2%;
+      background-color: #f7fafd;
+      border: 1px solid #d1dce8;
+      border-radius: 8px;
+      padding: 18px 16px;
+      text-align: center;
+      font-size: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+      /* vertical-align: top evita que cards de alturas
+         diferentes se desalinhem */
+      vertical-align: top;
+    }
+
+    .status-card:last-child { margin-right: 0; }
+    .status-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.10); }
+
+    .status-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 4px;
+    }
+
+    .status-card.aberto::before    { background-color: #3182ce; }
+    .status-card.andamento::before { background-color: #d69e2e; }
+    .status-card.resolvido::before { background-color: #38a169; }
+    .status-card.cancelado::before { background-color: #e53e3e; }
+
+    .status-card .numero {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #16213e;
+      font-family: Arial, sans-serif;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .status-card .rotulo {
+      font-size: 0.8rem;
+      color: #718096;
+      font-family: Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* -------------------------------------------
+       TABELA
+       ------------------------------------------- */
+    .tabela-wrapper {
+      /* overflow-x: auto faz aparecer barra de rolagem
+         horizontal quando a tabela não cabe na tela */
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: Arial, sans-serif;
+      font-size: 0.875rem;
+      /* min-width: garante que a tabela não quebre
+         abaixo de um tamanho legível */
+      min-width: 540px;
+    }
+
+    thead { background-color: #16213e; color: #e0e0e0; }
+    thead th { padding: 12px 14px; text-align: left; font-weight: 600; }
+    tbody tr { border-bottom: 1px solid #e2e8f0; transition: background-color 0.15s; }
+    tbody tr:hover { background-color: #f0f4f8; }
+    tbody td { padding: 11px 14px; vertical-align: middle; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .badge.aberto    { background-color: #ebf4ff; color: #2b6cb0; }
+    .badge.andamento { background-color: #fefcbf; color: #975a16; }
+    .badge.resolvido { background-color: #f0fff4; color: #276749; }
+    .badge.cancelado { background-color: #fff5f5; color: #c53030; }
+
+    /* -------------------------------------------
+       FORMULÁRIO — 2 colunas (desktop)
+       ------------------------------------------- */
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #16213e;
+      margin-top: 16px;
+      margin-bottom: 4px;
+      font-family: Arial, sans-serif;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      display: block;
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #b0c4d8;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      color: #1a1a2e;
+      background-color: #f7fafd;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #0f3460;
+      background-color: #fff;
+      box-shadow: 0 0 0 3px rgba(15,52,96,0.12);
+    }
+
+    textarea { resize: vertical; }
+
+    fieldset {
+      border: 1px solid #b0c4d8;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-top: 16px;
+      display: flex;
+    }
+
+    legend {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: #16213e;
+      padding: 0 6px;
+    }
+
+    input[type="radio"] { margin-right: 4px; margin-left: 12px; cursor: pointer; }
+    input[type="radio"]:first-of-type { margin-left: 0; }
+    input[type="checkbox"] { margin-top: 16px; margin-right: 6px; cursor: pointer; transform: scale(1.2); }
+    input[type="checkbox"] + label { display: inline; font-weight: 400; font-size: 0.875rem; }
+
+    /* Linha de 2 colunas — só no desktop */
+    .form-row { font-size: 0; }
+
+    .form-col {
+      display: inline-block;
+      width: 48%;
+      font-size: 1rem;
+      vertical-align: top;
+    }
+
+    .form-col:first-child { margin-right: 4%; }
+
+    button[type="submit"] {
+      display: block;
+      margin-top: 24px;
+      padding: 12px 32px;
+      background-color: #e94560;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: Arial, sans-serif;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover { background-color: #c73652; }
+
+    .btn-fixo {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background-color: #e94560;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      font-size: 0.875rem;
+      font-weight: 700;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(233,69,96,0.4);
+      z-index: 100;
+      position: relative; /* desabilitado neste bloco para não sobrepor */
+    }
+
+    footer {
+      background-color: #16213e;
+      color: #718096;
+      text-align: center;
+      padding: 20px 32px;
+      font-size: 0.85rem;
+    }
+
+    /* =============================================
+       MEDIA QUERIES — adaptações para telas menores
+       @media aplica um bloco de CSS somente quando
+       a condição for verdadeira.
+
+       Sintaxe:
+         @media (max-width: Xpx) { ... }
+       Significa: "aplique esses estilos quando a
+       largura da tela for ATÉ X pixels".
+       ============================================= */
+
+    /* -------------------------------------------
+       TABLET — até 768px de largura
+       ------------------------------------------- */
+    @media (max-width: 768px) {
+
+      /* Tipografia menor para caber em telas menores */
+      h1 { font-size: 1.5rem; }
+      h2 { font-size: 1.2rem; }
+
+      /* Header: padding menor */
+      header { padding: 18px 20px; }
+
+      /* Badge: reposiciona */
+      .header-badge {
+        top: 12px;
+        right: 16px;
+      }
+
+      /* Nav: padding menor */
+      nav { padding: 10px 20px; }
+      nav a { margin-right: 16px; font-size: 0.85rem; }
+
+      /* Main: margem menor */
+      main { margin: 20px auto; }
+
+      /* Section: padding menor */
+      section { padding: 20px 20px; }
+
+      /* Cards de status: 2 por linha em tablet
+         width: 48% + margin: 2% × 2 colunas ≈ 100% */
+      .status-card {
+        width: 48%;
+        margin-right: 2%;
+        margin-bottom: 2%;
+      }
+
+      /* O 2º card de cada linha não precisa de margem direita */
+      .status-card:nth-child(2n) {
+        margin-right: 0;
+      }
+
+      /* Formulário: empilha as colunas (cada coluna vira 100%) */
+      .form-col {
+        width: 100%;
+        display: block;     /* de inline-block para block */
+      }
+
+      .form-col:first-child {
+        margin-right: 0;
+      }
+
+      /* Botão ocupa toda a largura no tablet */
+      button[type="submit"] {
+        width: 100%;
+        text-align: center;
+      }
+
+      footer { padding: 16px 20px; }
+    }
+
+    /* -------------------------------------------
+       MOBILE — até 480px de largura
+       ------------------------------------------- */
+    @media (max-width: 480px) {
+
+      h1 { font-size: 1.25rem; letter-spacing: 0; }
+      h2 { font-size: 1.1rem; }
+
+      header { padding: 14px 16px; }
+
+      /* Badge some no mobile (pouco espaço) */
+      .header-badge { display: none; }
+
+      /* Navegação: links empilhados verticalmente */
+      nav {
+        padding: 8px 16px;
+      }
+
+      nav a {
+        display: block;           /* de inline-block para block */
+        margin-right: 0;
+        margin-bottom: 8px;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        font-size: 0.9rem;
+      }
+
+      nav a:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      /* Cards: 1 por linha no mobile */
+      .status-card {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 12px;
+      }
+
+      /* Status grid: restaura font-size pois tem 1 coluna */
+      .status-grid { font-size: 1rem; }
+
+      /* Section: padding mínimo */
+      section { padding: 16px 14px; }
+
+      /* Campos de formulário: font maior para facilitar toque */
+      input[type="text"],
+      input[type="email"],
+      select,
+      textarea {
+        font-size: 1rem;
+        padding: 12px;
+      }
+
+      /* Fieldset: empilha os radios verticalmente */
+      fieldset { padding: 10px 12px; display: flex;}
+
+      input[type="radio"] {
+        display: block;
+        margin-left: 0;
+        margin-top: 8px;
+      }
+
+      /* Cada label de radio vira bloco também */
+      input[type="radio"] + label {
+        display: block;
+        margin-bottom: 4px;
+        margin-left: 20px;
+        margin-top: -24px;  /* alinha com o radio */
+        padding-left: 4px;
+      }
+
+      footer {
+        padding: 14px 16px;
+        font-size: 0.8rem;
+      }
+    }
+
+    /* -------------------------------------------
+       NOTA EXPLICATIVA sobre @media print
+       Existe também @media print para estilos de impressão.
+       Exemplo: ocultar nav e botões na versão impressa.
+       ------------------------------------------- */
+    @media print {
+      nav, .header-badge, button { display: none; }
+      body { background-color: #fff; }
+      section { box-shadow: none; border: 1px solid #ccc; }
+    }
+
+
+  </style>
+
+</head>
+
+<body>
+    
+  <main>
+ 
+    <!-- PAINEL DE STATUS -->
+    <section>
+      <h2>Painel de Status</h2>
+      <div class="status-grid">
+        <div class="status-card aberto">
+          <span class="numero">12</span>
+          <span class="rotulo">Abertos</span>
+        </div>
+        <div class="status-card andamento">
+          <span class="numero">5</span>
+          <span class="rotulo">Em andamento</span>
+        </div>
+        <div class="status-card resolvido">
+          <span class="numero">47</span>
+          <span class="rotulo">Resolvidos</span>
+        </div>
+        <div class="status-card cancelado">
+          <span class="numero">3</span>
+          <span class="rotulo">Cancelados</span>
+        </div>
+      </div>
+    </section>
+ <!-- FORMULÁRIO -->
+    <section>
+      <h2>Abrir Novo Chamado</h2>
+      <form action="#" method="post">
+
+        <div class="form-row">
+          <div class="form-col">
+            <label for="nome">Seu nome completo:</label>
+            <input type="text" id="nome" name="nome" placeholder="Ex.: João da Silva">
+          </div>
+          <div class="form-col">
+            <label for="email">E-mail para contato:</label>
+            <input type="email" id="email" name="email" placeholder="Ex.: joao@empresa.com">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-col">
+            <label for="categoria">Categoria do chamado:</label>
+            <select id="categoria" name="categoria">
+              <option value="">-- Selecione --</option>
+              <option value="suporte">Suporte técnico</option>
+              <option value="equipamento">Solicitação de equipamento</option>
+              <option value="acesso">Acesso a sistemas</option>
+              <option value="administrativo">Dúvidas administrativas</option>
+            </select>
+          </div>
+          <div class="form-col">
+            <fieldset>
+              <legend>Departamento:</legend>
+              <input type="radio" id="ti" name="departamento" value="ti">
+              <label for="ti">TI</label>
+              <input type="radio" id="rh" name="departamento" value="rh">
+              <label for="rh">RH</label>
+              <input type="radio" id="financeiro" name="departamento" value="financeiro">
+              <label for="financeiro">Financeiro</label>
+            </fieldset>
+          </div>
+        </div>
+
+        <label for="descricao">Descrição detalhada:</label>
+        <textarea id="descricao" name="descricao" rows="5"
+          placeholder="Descreva o problema ou solicitação com detalhes..."></textarea>
+
+        <input type="checkbox" id="aceite" name="aceite">
+        <label for="aceite">Declaro que as informações acima são verdadeiras.</label>
+
+        <button type="submit">Enviar chamado</button>
+
+      </form>
+    </section>
+
+    <!-- TABELA COM SCROLL HORIZONTAL -->
+    <section>
+      <h2>Chamados Recentes</h2>
+      <!-- Wrapper que habilita scroll horizontal em mobile -->
+      <div class="tabela-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Protocolo</th>
+              <th>Solicitante</th>
+              <th>Categoria</th>
+              <th>Departamento</th>
+              <th>Status</th>
+            </tr>
+          </thead> 
+          
+          <tbody>
+            
+            <tr>
+              <td>#2025-001</td>
+              <td>Ana Ferreira</td>
+              <td>Suporte técnico</td>
+              <td>TI</td>
+              <td><span class="badge andamento">Em andamento</span></td>
+            </tr>
+            <tr>
+              <td>#2025-002</td>
+              <td>Carlos Mendes</td>
+              <td>Acesso a sistemas</td>
+              <td>RH</td>
+              <td><span class="badge aberto">Aberto</span></td>
+            </tr>
+            <tr>
+              <td>#2025-003</td>
+              <td>Mariana Souza</td>
+              <td>Equipamento</td>
+              <td>Financeiro</td>
+              <td><span class="badge resolvido">Resolvido</span></td>
+            </tr>
+            <tr>
+              <td>#2025-004</td>
+              <td>Paulo Rodrigues</td>
+              <td>Administrativo</td>
+              <td>TI</td>
+              <td><span class="badge cancelado">Cancelado</span></td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+   
+
+  </main>
+  <script>
+    const form = document.querySelector("form"); // pega o form
+    const tbody = document.querySelector("table tbody"); // tbody da tabela
+    const chamados = []; // array de chamados
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault(); // evita o reload da página
+
+  // pega os valores dos inputs
+  const protocolo = "#2026-" + (chamados.length + 1).toString().padStart(3, "0"); // gera protocolo automático
+  const solicitante = document.getElementById("nome").value;
+  const categoria = document.getElementById("categoria").value;
+  
+  // departamento radio
+  const departamento = document.querySelector('input[name="departamento"]:checked')?.value || "";
+
+  const status = "aberto"; // default
+
+  // adiciona ao array
+  chamados.push({ protocolo, solicitante, categoria, departamento, status });
+
+  // renderiza tabela
+  renderizarTabela();
+
+  // limpa o form
+  form.reset();
+});
+function renderizarTabela() {
+  tbody.innerHTML = ""; // limpa tbody
+
+  chamados.forEach(chamado => {
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>${chamado.protocolo}</td>
+      <td>${chamado.solicitante}</td>
+      <td>${chamado.categoria}</td>
+      <td>${chamado.departamento}</td>
+      <td><span class="badge ${chamado.status}">${formatarStatus(chamado.status)}</span></td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+    atualizarCards()
+}
+
+
+function formatarStatus(status) {
+  switch(status) {
+    case "aberto": return "Aberto";
+    case "andamento": return "Em andamento";
+    case "resolvido": return "Resolvido";
+    case "cancelado": return "Cancelado";
+    default: return status;
+  }
+};
+
+function atualizarCard(){
+    const abertoCard = document.querySelector(".status-card.aberto .numero");
+
+}
+function atualizarCards() {
+  const abertoCard = document.querySelector(".status-card.aberto .numero");
+  const andamentoCard = document.querySelector(".status-card.andamento .numero");
+  const resolvidoCard = document.querySelector(".status-card.resolvido .numero");
+  const canceladoCard = document.querySelector(".status-card.cancelado .numero");
+
+  // Conta os chamados por status
+  const statusCount = { aberto: 0, andamento: 0, resolvido: 0, cancelado: 0 };
+  chamados.forEach(c => {
+    if (statusCount[c.status] !== undefined) {
+      statusCount[c.status]++;
+    }
+  });
+
+  // Atualiza os cards
+  abertoCard.textContent = statusCount.aberto;
+  andamentoCard.textContent = statusCount.andamento;
+  resolvidoCard.textContent = statusCount.resolvido;
+  canceladoCard.textContent = statusCount.cancelado;
+}
+
+</script>
+ 
+</body>
+</html>
